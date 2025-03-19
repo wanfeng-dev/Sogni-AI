@@ -1,0 +1,71 @@
+// 动物列表
+const animals = [
+  "Tiger", "Lion", "Elephant", "Giraffe", "Panda", "Kangaroo", "Zebra", 
+  "Dolphin", "Whale", "Shark", "Bear", "Fox", "Wolf", "Rabbit", 
+  "Penguin", "Peacock", "Owl", "Parrot", "Eagle", "Monkey", 
+  "Cheetah", "Leopard", "Camel", "Horse", "Goat", "Sheep", 
+  "Cow", "Dog", "Cat", "Chicken", "Duck", "Swan", 
+  "Frog", "Lizard", "Crocodile", "Snake", "Turtle", "Fish", 
+  "Jellyfish", "Octopus", "Seahorse", "Seal", "Walrus", "Polar Bear", 
+  "Hippopotamus", "Rhinoceros", "Koala", "Sloth", "Armadillo", "Chameleon"
+];
+
+// 提示词生成函数
+function generatePrompt() {
+  const randomAnimal = animals[Math.floor(Math.random() * animals.length)];
+  const scenarios = [
+    `A cute ${randomAnimal} in a forest`,
+    `A majestic ${randomAnimal} on a mountain`,
+    `A playful ${randomAnimal} by the river`,
+    `A cartoon ${randomAnimal} with vibrant colors`,
+    `A ${randomAnimal} relaxing under a tree`,
+    `A futuristic robotic ${randomAnimal}`,
+    `A baby ${randomAnimal} exploring nature`,
+    `A ${randomAnimal} running in a wide field`,
+    `A fantasy version of a ${randomAnimal}`,
+    `A ${randomAnimal} with glowing eyes in the dark`
+  ];
+  
+  return scenarios[Math.floor(Math.random() * scenarios.length)];
+}
+
+// 执行任务
+function runTask() {
+  const prompt = generatePrompt();
+  
+  // 找到输入框并填入提示词
+  const inputBox = document.querySelector('textarea');
+  if (inputBox) {
+    inputBox.value = "";
+    inputBox.value = prompt;
+    console.log(`✅ 提示词已生成: ${prompt}`);
+  } else {
+    console.error("❗ 未找到输入框");
+    return;
+  }
+
+  // 使用XPath点击想象按钮
+  const imagineButton = document.evaluate(
+    '//*[@id="root"]/div/div[2]/aside/div[1]/button',
+    document,
+    null,
+    XPathResult.FIRST_ORDERED_NODE_TYPE,
+    null
+  ).singleNodeValue;
+
+  if (imagineButton) {
+    imagineButton.click();
+    console.log("🚀 已点击想象按钮");
+  } else {
+    console.error("❗ 未找到想象按钮");
+  }
+  
+  // 设置下次任务时间（2-4分钟随机，精确到秒）
+  const randomSeconds = Math.floor(Math.random() * (240 - 120 + 1)) + 120;
+  console.log(`⏰ 下次任务将在 ${Math.floor(randomSeconds / 60)} 分 ${randomSeconds % 60} 秒后执行`);
+  setTimeout(runTask, randomSeconds * 1000);
+}
+
+// 启动任务
+console.log("✅ 任务已启动，每 2-4 分钟执行一次");
+runTask();
